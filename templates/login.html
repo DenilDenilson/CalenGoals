@@ -8,12 +8,24 @@
   </head>
   <body>
     <h1>LogIn</h1>
-    <form action="/signup" method="POST">
+    <form action="/login" method="POST">
       <label for="alias">Alias</label><br />
       <input type="text" name="alias" id="alias" /><br />
       <label for="password">Contraseña</label><br />
       <input type="text" name="password" id="password" /><br />
       <button type="submit">Enviar</button>
     </form>
+    <ul>
+      {% for user in users %}
+      <li>
+        <p>
+          <span><b>alias: </b>{{user.alias}}</span>
+        </p>
+        <p>
+          <span><b>password: </b>{{user.password}}</span>
+        </p>
+      </li>
+      {% endfor %}
+    </ul>
   </body>
 </html>
