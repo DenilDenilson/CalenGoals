@@ -14,7 +14,16 @@ def hello_world():
 
 @app.route("/signup", methods=['POST'])
 def signup():
-    print(request.form['alias'])
-    print(request.form['password'])
+    new_user = {"alias": request.form['alias'], "password":request.form['password']}
+    user.db_user.append(new_user)
+    print(user.db_user)
     return redirect(url_for("hello_world"))
     
+@app.route("/login", methods=['POST'])
+def login():
+    return "Logeado"
+
+
+@app.route("/home")
+def home():
+    return "B I E N V E N I D O"
