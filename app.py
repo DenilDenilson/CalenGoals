@@ -14,7 +14,7 @@ def hello_world():
 
 @app.route("/signup", methods=['POST'])
 def signup():
-    new_user = {"alias": request.form['alias'], "password":request.form['password']}
+    new_user = user.User(request.form['alias'], request.form['password'])
     user.db_user.append(new_user)
     print(user.db_user)
     return redirect(url_for("hello_world"))
