@@ -3,7 +3,8 @@ from flask_login import UserMixin
 db_user = []
 
 class User(UserMixin):
-    def __init__(self, alias, password):
+    def __init__(self, id, alias, password):
+        self.id = id
         self.alias = alias
         self.password = password
     
@@ -14,5 +15,5 @@ class User(UserMixin):
 def get_user(alias):
     for user in db_user:
         if user.alias == alias:
-            return True
-        return False
+            return user
+        return None
