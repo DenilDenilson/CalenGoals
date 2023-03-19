@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, login_required, logout_user
 from models import user
-
 
 app =Flask(__name__)
 app.config["SECRET_KEY"] = "so-secret"
 
 login_manager = LoginManager()
+login_manager.login_view = "log_in"
 login_manager.init_app(app)
 
 model_user =  user.User
@@ -14,8 +14,9 @@ db_user = user.db_user
 user.get_user
 
 @app.route("/")
+@login_required
 def home():
-    return "B I E N V E N I D O"
+    return render_template('home.html')
 
 @app.route("/sign-up")
 def sign_up():
@@ -45,12 +46,17 @@ def login():
         return redirect(url_for("home"))
     return redirect(url_for("sign_up"))
 
+@app.route("/logout", methods=['POST'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("sign_up"))
 
 
 # C A R G A R   U S U A R I O S
 @login_manager.user_loader
-def load_user(alias):
+def load_user(user_id):
     for user_db in db_user:
-        if user_db.alias == alias:
+        if user_db.id == int(user_id):
             return user_db
         return None
