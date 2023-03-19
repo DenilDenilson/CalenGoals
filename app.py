@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from models import user
 
 app =Flask(__name__)
@@ -20,6 +20,8 @@ def home():
 
 @app.route("/sign-up")
 def sign_up():
+    if current_user.is_authenticated:
+        return redirect(url_for("home"))
     return render_template('signup.html', users = db_user)
 
 @app.route("/log-in")
@@ -28,6 +30,7 @@ def log_in():
 
 @app.route("/signup", methods=['POST'])
 def signup():
+    
     alias = request.form['alias']
     password = request.form['password']
     new_user = model_user(len(db_user) + 1, alias, password)
